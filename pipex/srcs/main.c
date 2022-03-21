@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paijavai <paijavai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 01:18:47 by paijavai          #+#    #+#             */
-/*   Updated: 2022/03/16 01:37:46 by paijavai         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:20:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int main(void)
 {
-	int	i;
-
-	i = ft_strlen("ola");
-	ft_printf("ola %i", i);
+	t_p	*p;
+	p = malloc(sizeof(t_p));
+	if (!p)
+		return (NULL);
+	pipe(p->fd);
+	
 }
