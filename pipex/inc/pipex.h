@@ -3,25 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 01:37:23 by paijavai          #+#    #+#             */
-/*   Updated: 2022/03/21 13:20:00 by marvin           ###   ########.fr       */
+/*   Updated: 2022/03/28 17:19:11 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libft.h"
-# include <sys/types.h>
+# include "../libft/libft.h"
 
 typedef struct s_p{
-	int		fd[2];
-	char	*cmd_path;
-	char	**env_path;
+	int		infile;
+	int		outfile;
+	int		*pipe;
+	int		id;
+	int		nbr;
+	int		cmd_nbr;
+	pid_t	pid;
+	char	*cmd;
+	char	**cmd_path; //path
+	char	**arg; //comandos
+	char	*env;
 }	t_p;
-
-int	main(void);
 
 #endif

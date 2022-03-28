@@ -19,9 +19,11 @@
 # include <stdio.h>
 # include <stdarg.h>
 # include <limits.h>
-# include <sys/wait.h>
-#include <sys/types.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/uio.h>
 
 typedef struct s_list
 {

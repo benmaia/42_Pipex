@@ -42,16 +42,14 @@ RESET       =   \033[0m
 all:	$(NAME)
 
 $(NAME):    $(OBJ)
-	@echo "$(YELLOW)[       Compiling libft ...      ]$(RESET)"
 	@ar rcs $(NAME) $(OBJ)
-	@echo "$(GREEN)[    Libft.a has been created!   ]$(RESET)"
 
 clean:
 	@$(RM) $(OBJ)
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(RED)[    libft.a has been removed!   ]$(RESET)"
+	#@echo "$(RED)[    libft.a has been removed!   ]$(RESET)"
 
 re: fclean $(NAME)
 
