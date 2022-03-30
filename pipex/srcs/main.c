@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/03/30 16:01:53 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:04:45 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,6 @@ int main(int argc, char **argv, char **envp)
 	char **s;
 
 	s = ft_split(*p.arg, ' ');
-	printf("s = %s\n", s[0]);
-	printf("s = %s\n", s[1]);
 	if (p.pid == 0)
 		execve("/bin/ls", p.arg, envp);
 	return (0);
