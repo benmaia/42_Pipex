@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 01:37:23 by paijavai          #+#    #+#             */
-/*   Updated: 2022/03/28 17:19:11 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/03/30 01:44:19 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ typedef struct s_p{
 	int		outfile;
 	int		*pipe;
 	int		id;
-	int		nbr;
+	int		pipe_nbr;
 	int		cmd_nbr;
 	pid_t	pid;
 	char	*cmd;
-	char	**cmd_path; //path
-	char	**arg; //comandos
+	char	**path;
+	char	**cmd_path;
+	char	**arg;
 	char	*env;
 }	t_p;
 

@@ -1,0 +1,16 @@
+INFILE = 3
+OUTFILE = 4
+CMD_PATH[0] = /usr/local/bin
+CMD_PATH[1] = /usr/bin
+CMD_PATH[2] = /bin
+CMD_PATH[3] = /usr/sbin
+CMD_PATH[4] = /sbin
+CMD_PATH[5] = /usr/local/munki
+ARG[0] = /bin/ls
+ARG[1] = /usr/bin/wc
+PATHS /ls
+PATHS /wc
+
+
+ARG = CMD_PATH
+CMD_PATH = PATH
