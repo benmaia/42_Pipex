@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/03/30 16:04:45 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/03/31 22:05:06 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,25 @@ int e(char *s)
 
 void debug(t_p p)
 {
+	//int i;
+	
 	printf("INFILE = %d\n", p.infile);
 	printf("OUTFILE = %d\n", p.outfile);
-	int i = -1;
-	while (p.arg[++i] != NULL)
-		printf("ARG[%d] = %s\n", i, p.arg[i]);
-	i = -1;
-	while (p.path[++i] != NULL)
-		printf("PATH[%d] = %s\n", i, p.path[i]);
-	i = -1;
-	// while (p.cmd_path[++i])
-	// 	printf("CMD_PATH[%d] = %s\n", i, p.cmd_path[i]);
+	//printf("PIPE = %d\n", p.pipe);
+	printf("ID = %d\n", p.id);
+	printf("PIPE_NBR = %d\n", p.pipe_nbr);
+	printf("CMD_NBR = %d\n", p.cmd_nbr);
+	printf("PID = %d\n", p.pid);
+	// i = -1;
+	// while (p.cmd[++i])
+	// 	printf("CMD[%d] = %s\n", i, p.cmd[i]);
+	// i = -1;
+	// while (p.path[++i] != NULL)
+	// 	printf("PATH[%d] = %s\n", i, p.path[i]);
+	// printf("CMD_PATH = %s\n", p.cmd_path);
+	// i = -1;
+	// while (p.arg[++i] != NULL)
+	// 	printf("ARG[%d] = %s\n", i, p.arg[i]);
 }
 
 void parsing(t_p *p, int argc, char **argv)
@@ -77,33 +85,54 @@ void find_path(t_p *p, char **envp)
 void get_cmd_path(t_p *p)
 {
 	char	*tmp;
-	//char	*path;
+	char	*tmp2;
 	int		i;
 	int		j;
 
 	j = -1;
 	while (p->path[++j])
 	{
-		tmp = ft_strjoin(p->path[j], p->cmd_path[0]);
-		p->cmd_path[0] = ft_strdup(tmp);
+		tmp = ft_strjoin(p->path[j], p->cmd_path);
+		tmp2 = ft_strdup(tmp);
 		free (tmp);
 		tmp = NULL;
-		i = access(p->cmd_path[0], F_OK);
+		i = access(tmp2, F_OK);
 		if (i < 0)
 			continue ;
 		else
+		{
+			p->cmd_path = ft_strdup(tmp2);
+			free (tmp2);
 			return ;
+		}
 	}
 	e("Error");
 }
 
-void get_cmd(t_p *p)
+static char	*get_path_cmd(char *tmp)
+{
+	int		i;
+	char	*s;
+
+	i = -1;
+	while (tmp[++i])
+		if (tmp[i] == ' ')
+			break;
+	s = malloc(sizeof(char) * i + 1);
+	if (!s)
+		return (NULL);
+	s = ft_substr(tmp, 0, i);
+	return (s);
+}
+
+void get_cmd(t_p *p, int x)
 {
 	char	*tmp;
 	int		i;
 
 	i = 0;
-	p->cmd_path = ft_split(p->arg[i], ' ');
+	p->cmd = ft_split(p->arg[x], ' ');
+	p->cmd_path = get_path_cmd(p->arg[x]);
 	i = -1;
 	if (p->arg[++i])
 	{
@@ -111,12 +140,31 @@ void get_cmd(t_p *p)
 			return ;
 		else
 		{
-			tmp = ft_strjoin("/", p->cmd_path[0]);
-			free(p->cmd_path[0]);
-			p->cmd_path[0] = strdup(tmp);
+			tmp = ft_strjoin("/", p->cmd_path);
+			free(p->cmd_path);
+			p->cmd_path = strdup(tmp);
 			free (tmp);
-			//get_cmd_path(p);
+			tmp = NULL;
+			get_cmd_path(p);
 		}
+	}
+}
+
+void	child_work(t_p *p, int i, char **envp)
+{
+	get_cmd(p, i);
+	execve(p->cmd_path, p->cmd, envp);
+}
+
+void	create_pipes(t_p *p)
+{
+	int	i;
+
+	i = -1;
+	while (++i < p->pipe_nbr)
+	{
+		if (pipe(&p->pipe_nbr) < 0)
+			e("pipes");
 	}
 }
 
@@ -124,25 +172,19 @@ int main(int argc, char **argv, char **envp)
 {
 	t_p	p;
 
-	(void)p;
-	(void)argv;
-	(void)envp;
-	p.cmd_nbr = argc - 3;
 	if (argc < 5)
 		e("Error");
+	p.cmd_nbr = argc - 3;
+	p.pipe_nbr = argc - 4;
 	parsing(&p, argc, argv);
 	find_path(&p, envp);
-	get_cmd(&p);
+	int i = -1;
+	while (++i < p.cmd_nbr)
+	{
+		p.pid = fork();
+		if (p.pid == 0)
+			child_work(&p, i, envp);
+	}
 	debug(p);
-	int i;
-	i = access("/bin/ls", F_OK);
-	if (i < 0)
-		e("Tentaste");
-	p.pid = fork();
-	char **s;
-
-	s = ft_split(*p.arg, ' ');
-	if (p.pid == 0)
-		execve("/bin/ls", p.arg, envp);
 	return (0);
 }

@@ -14,3 +14,19 @@ PATHS /wc
 
 ARG = CMD_PATH
 CMD_PATH = PATH
+
+
+
+INFILE = 3
+OUTFILE = 4
+ARG[0] = ls -la
+ARG[1] = wc
+PATH[0] = /usr/local/bin
+PATH[1] = /usr/bin
+PATH[2] = /bin
+PATH[3] = /usr/sbin
+PATH[4] = /sbin
+PATH[5] = /usr/local/munki
+CMD_PATH[0] = /ls
+CMD_PATH[1] = -la
+CMD = ls -la
