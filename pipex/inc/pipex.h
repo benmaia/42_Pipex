@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 01:37:23 by paijavai          #+#    #+#             */
-/*   Updated: 2022/03/31 16:58:36 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/02 14:15:25 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_p{
 	char	*cmd_path;
 	char	**arg;
 	char	*env;
+	int		in;
+	int		out;
 }	t_p;
 
 #endif

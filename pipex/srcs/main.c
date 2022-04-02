@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/03/31 22:05:06 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/02 17:15:10 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int e(char *s)
 // STDIN_FILENO = 0
 // STDOUT_FILENO = 1
 // STDERR_FILENO = 2
+// test.txt = 3
+// test2.txt = 4
+
+
+
 
 
 //./pipex infile "ls -l" "wc -l" outfile 
@@ -33,10 +38,10 @@ void debug(t_p p)
 	printf("INFILE = %d\n", p.infile);
 	printf("OUTFILE = %d\n", p.outfile);
 	//printf("PIPE = %d\n", p.pipe);
-	printf("ID = %d\n", p.id);
-	printf("PIPE_NBR = %d\n", p.pipe_nbr);
-	printf("CMD_NBR = %d\n", p.cmd_nbr);
-	printf("PID = %d\n", p.pid);
+	// printf("ID = %d\n", p.id);
+	// printf("PIPE_NBR = %d\n", p.pipe_nbr);
+	// printf("CMD_NBR = %d\n", p.cmd_nbr);
+	// printf("PID = %d\n", p.pid);
 	// i = -1;
 	// while (p.cmd[++i])
 	// 	printf("CMD[%d] = %s\n", i, p.cmd[i]);
@@ -55,7 +60,7 @@ void parsing(t_p *p, int argc, char **argv)
 	int	j;
 
 	p->infile = open(argv[1], O_RDONLY);
-	p->outfile = open(argv[argc - 1], O_WRONLY, O_CREAT, O_TRUNC, 0644);
+	p->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (p->infile < 0 || p->outfile < 0)
 		e("Error");
 	p->arg = malloc(sizeof(char *) * argc);
@@ -150,8 +155,37 @@ void get_cmd(t_p *p, int x)
 	}
 }
 
+void	close_pipes(t_p *p)
+{
+	int	i;
+
+	i = -1;
+	while (++i < p->pipe_nbr)
+		close(p->pipe[i]);
+}
+
 void	child_work(t_p *p, int i, char **envp)
 {
+	p->pid = fork();
+	if (!p->pid)
+	{
+		if (p->id == 0)
+		{
+			dup2(p->infile, 0);
+			dup2(p->pipe[1], 1);
+		}
+		else if (p->id == p->cmd_nbr - 1)
+		{
+			dup2(p->pipe[2 * p->id - 2], 0);
+			dup2(p->outfile, 1);
+		}
+		else
+		{
+			dup2(p->pipe[2 * p->id - 2], 0);
+			dup2(p->pipe[2 * p->id + 1], 1);
+		}
+	}
+	close_pipes(p);
 	get_cmd(p, i);
 	execve(p->cmd_path, p->cmd, envp);
 }
@@ -163,7 +197,7 @@ void	create_pipes(t_p *p)
 	i = -1;
 	while (++i < p->pipe_nbr)
 	{
-		if (pipe(&p->pipe_nbr) < 0)
+		if (pipe(p->pipe) < 0)
 			e("pipes");
 	}
 }
@@ -175,16 +209,14 @@ int main(int argc, char **argv, char **envp)
 	if (argc < 5)
 		e("Error");
 	p.cmd_nbr = argc - 3;
-	p.pipe_nbr = argc - 4;
+	p.pipe_nbr = 2 * (p.cmd_nbr - 1);
 	parsing(&p, argc, argv);
 	find_path(&p, envp);
-	int i = -1;
-	while (++i < p.cmd_nbr)
-	{
-		p.pid = fork();
-		if (p.pid == 0)
-			child_work(&p, i, envp);
-	}
-	debug(p);
+	create_pipes(&p);
+	p.id = -1;
+	while (++p.id < p.cmd_nbr)
+			child_work(&p, p.id, envp);
+	close_pipes(&p);
+	//debug(p);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 20:28:52 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/03/30 14:38:28 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/02 16:58:54 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,3 +149,24 @@ int main(int argc, char **argv, char **envp)
 	debug(p);
 	return (0);
 }
+
+p.pid = fork();
+	if (!p.pid)
+	{
+		if (p.idx == 0)
+			sub_dup2(p.infile, p.pipe[1]);
+		else if (p.idx == p.cmd_nmbs - 1)
+			sub_dup2(p.pipe[2 * p.idx - 2], p.outfile);
+		else
+			sub_dup2(p.pipe[2 * p.idx - 2], p.pipe[2 * p.idx + 1]);
+		close_pipes(&p);
+		p.cmd_args = ft_split(argv[2 + p.here_doc + p.idx], ' ');
+		p.cmd = get_cmd(p.cmd_paths, p.cmd_args[0]);
+		if (!p.cmd)
+		{
+			msg_pipe(p.cmd_args[0]);
+			child_free(&p);
+			exit(1);
+		}
+		execve(p.cmd, p.cmd_args, envp);
+	}
