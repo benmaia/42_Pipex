@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/04 18:34:00 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/05 00:09:55 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,54 +156,31 @@ void get_cmd(t_p *p, int x)
 	}
 }
 
-void	close_pipes(t_p *p)
-{
-	int	i;
-
-	i = -1;
-	while (++i < p->pipe_nbr)
-		close(p->pipe[i]);
-}
-
 void	child_work(t_p *p, int i, char **envp)
 {
+	if (pipe(p->pipe) == -1)
+		e("Error");
 	p->pid = fork();
 	if (!p->pid)
 	{
+		close (p->pipe[0]);
 		if (p->id == 0)
 		{
-			//printf("start: %d %d\n", p->infile, p->pipe[1]);
-			dup2(p->infile, 0);
-			dup2(p->pipe[1], 1);
+			dup2 (p->infile, STDIN_FILENO);
+			dup2 (p->pipe[1], STDOUT_FILENO);
 		}
 		else if (p->id == p->cmd_nbr - 1)
 		{
-			//printf("end: %d %d\n", p->pipe[2 * p->id - 2], p->outfile);
-			dup2(p->pipe[2 * p->id - 2], 0);
-			dup2(p->outfile, 1);
+			dup2 (p->outfile, STDOUT_FILENO);
 		}
 		else
-		{
-			//printf("mid: %d %d\n", p->pipe[2 * p->id - 2], p->pipe[2 * p->id + 1]);
-			dup2(p->pipe[2 * p->id - 2], 0);
-			dup2(p->pipe[2 * p->id + 1], 1);
-		}
-		close_pipes(p);
+			dup2 (p->pipe[1], STDOUT_FILENO);
 		get_cmd(p, i);
 		execve(p->cmd_path, p->cmd, envp);
 	}
-}
-
-void	create_pipes(t_p *p)
-{
-	int	i;
-
-	i = -1;
-	while (++i < p->pipe_nbr)
-	{
-		if (pipe(p->pipe) < 0)
-			e("pipes");
-	}
+	close (p->pipe[1]);
+	wait(NULL);
+	dup2 (p->pipe[0], STDIN_FILENO);
 }
 
 int main(int argc, char **argv, char **envp)
@@ -213,18 +190,11 @@ int main(int argc, char **argv, char **envp)
 	if (argc < 5)
 		e("Error");
 	p.cmd_nbr = argc - 3;
-	p.pipe_nbr = 2 * (p.cmd_nbr - 1);
-	p.pipe = malloc(sizeof(int) * p.pipe_nbr);
-	if (!p.pipe)
-		return (e("Error"));
 	parsing(&p, argc, argv);
 	find_path(&p, envp);
-	create_pipes(&p);
 	p.id = -1;
 	while (++p.id < p.cmd_nbr)
 			child_work(&p, p.id, envp);
-	close_pipes(&p);
-	waitpid(-1, NULL, 0);
 	//debug(p);
 	return (0);
 }

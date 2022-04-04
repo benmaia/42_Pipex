@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 01:37:23 by paijavai          #+#    #+#             */
-/*   Updated: 2022/04/02 14:15:25 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/05 00:10:22 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # include "../libft/libft.h"
 
-typedef struct s_p{
+typedef struct s_p {
 	int		infile;
 	int		outfile;
-	int		*pipe;
+	int		pipe[2];
 	int		id;
 	int		pipe_nbr;
 	int		cmd_nbr;
