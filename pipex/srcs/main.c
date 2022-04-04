@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/02 17:15:10 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/04 18:34:00 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,12 @@ void find_path(t_p *p, char **envp)
 
 	i = -1;
 	while (envp[++i])
-		if (!strncmp(envp[i], "PATH", 4))
-			s = strdup(envp[i] + 5);
+		if (!ft_strncmp(envp[i], "PATH", 4))
+			s = ft_strdup(envp[i] + 5);
 	if (!s)
 		e("Error");
 	p->path = ft_split(s, ':');
+	free (s);
 }
 
 void get_cmd_path(t_p *p)
@@ -123,9 +124,6 @@ static char	*get_path_cmd(char *tmp)
 	while (tmp[++i])
 		if (tmp[i] == ' ')
 			break;
-	s = malloc(sizeof(char) * i + 1);
-	if (!s)
-		return (NULL);
 	s = ft_substr(tmp, 0, i);
 	return (s);
 }
@@ -142,7 +140,10 @@ void get_cmd(t_p *p, int x)
 	if (p->arg[++i])
 	{
 		if (p->arg[i][0] == '/')
-			return ;
+		{
+			free (p->cmd_path);
+			p->cmd_path = ft_strdup(p->arg[i]);
+		}
 		else
 		{
 			tmp = ft_strjoin("/", p->cmd_path);
@@ -171,23 +172,26 @@ void	child_work(t_p *p, int i, char **envp)
 	{
 		if (p->id == 0)
 		{
+			//printf("start: %d %d\n", p->infile, p->pipe[1]);
 			dup2(p->infile, 0);
 			dup2(p->pipe[1], 1);
 		}
 		else if (p->id == p->cmd_nbr - 1)
 		{
+			//printf("end: %d %d\n", p->pipe[2 * p->id - 2], p->outfile);
 			dup2(p->pipe[2 * p->id - 2], 0);
 			dup2(p->outfile, 1);
 		}
 		else
 		{
+			//printf("mid: %d %d\n", p->pipe[2 * p->id - 2], p->pipe[2 * p->id + 1]);
 			dup2(p->pipe[2 * p->id - 2], 0);
 			dup2(p->pipe[2 * p->id + 1], 1);
 		}
+		close_pipes(p);
+		get_cmd(p, i);
+		execve(p->cmd_path, p->cmd, envp);
 	}
-	close_pipes(p);
-	get_cmd(p, i);
-	execve(p->cmd_path, p->cmd, envp);
 }
 
 void	create_pipes(t_p *p)
@@ -210,6 +214,9 @@ int main(int argc, char **argv, char **envp)
 		e("Error");
 	p.cmd_nbr = argc - 3;
 	p.pipe_nbr = 2 * (p.cmd_nbr - 1);
+	p.pipe = malloc(sizeof(int) * p.pipe_nbr);
+	if (!p.pipe)
+		return (e("Error"));
 	parsing(&p, argc, argv);
 	find_path(&p, envp);
 	create_pipes(&p);
@@ -217,6 +224,7 @@ int main(int argc, char **argv, char **envp)
 	while (++p.id < p.cmd_nbr)
 			child_work(&p, p.id, envp);
 	close_pipes(&p);
+	waitpid(-1, NULL, 0);
 	//debug(p);
 	return (0);
 }
