@@ -15,7 +15,9 @@ BB		= $(E) "$(YELLOW)⚜️ --------------------------------------- ⚜️ \n"
 NAME = pipex
 
 LIBFT_DIR	=	libft
-SRC			=	srcs/main.c
+SRC			=	srcs/main.c \
+				srcs/command.c \
+				srcs/parsing.c
 OBJ			=	$(SRC:srcs/%.c=$(OBJ_DIR)/%.o)
 INC_DIR		=	inc
 BUILD_DIR	=	./build

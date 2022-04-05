@@ -6,14 +6,14 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 01:37:23 by paijavai          #+#    #+#             */
-/*   Updated: 2022/04/05 00:10:22 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/05 20:25:40 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "../libft/libft.h"
+# include "libft.h"
 
 typedef struct s_p {
 	int		infile;
@@ -31,5 +31,23 @@ typedef struct s_p {
 	int		in;
 	int		out;
 }	t_p;
+
+void	err(t_p *p, char *s);
+
+void	free_all(t_p *p);
+
+void	parsing(t_p *p, int argc, char **argv);
+
+void	find_path(t_p *p, char **envp);
+
+void	get_cmd_path(t_p *p);
+
+char	*get_path_cmd(char *tmp);
+
+void	test(t_p *p);
+
+void	get_cmd(t_p *p, int x);
+
+void	child_work(t_p *p, int i, char **envp);
 
 #endif

@@ -6,160 +6,37 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/05 00:09:55 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/05 20:25:25 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int e(char *s)
-{
-	perror(s);
-	exit(EXIT_FAILURE);
-	return (1);
-}
-
-// STDIN_FILENO = 0
-// STDOUT_FILENO = 1
-// STDERR_FILENO = 2
-// test.txt = 3
-// test2.txt = 4
-
-
-
-
-
-//./pipex infile "ls -l" "wc -l" outfile 
-
-void debug(t_p p)
-{
-	//int i;
-	
-	printf("INFILE = %d\n", p.infile);
-	printf("OUTFILE = %d\n", p.outfile);
-	//printf("PIPE = %d\n", p.pipe);
-	// printf("ID = %d\n", p.id);
-	// printf("PIPE_NBR = %d\n", p.pipe_nbr);
-	// printf("CMD_NBR = %d\n", p.cmd_nbr);
-	// printf("PID = %d\n", p.pid);
-	// i = -1;
-	// while (p.cmd[++i])
-	// 	printf("CMD[%d] = %s\n", i, p.cmd[i]);
-	// i = -1;
-	// while (p.path[++i] != NULL)
-	// 	printf("PATH[%d] = %s\n", i, p.path[i]);
-	// printf("CMD_PATH = %s\n", p.cmd_path);
-	// i = -1;
-	// while (p.arg[++i] != NULL)
-	// 	printf("ARG[%d] = %s\n", i, p.arg[i]);
-}
-
-void parsing(t_p *p, int argc, char **argv)
+void	free_all(t_p *p)
 {
 	int	i;
-	int	j;
-
-	p->infile = open(argv[1], O_RDONLY);
-	p->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (p->infile < 0 || p->outfile < 0)
-		e("Error");
-	p->arg = malloc(sizeof(char *) * argc);
-	if (!p->arg)
-		e("Error");
-	i = 1;
-	j = -1;
-	while (++i < argc)
-		p->arg[++j] = ft_strdup(argv[i]);
-	p->arg[j] = NULL;
-}
-
-void find_path(t_p *p, char **envp)
-{
-	char	*s;
-	int		i;
 
 	i = -1;
-	while (envp[++i])
-		if (!ft_strncmp(envp[i], "PATH", 4))
-			s = ft_strdup(envp[i] + 5);
-	if (!s)
-		e("Error");
-	p->path = ft_split(s, ':');
-	free (s);
-}
-
-void get_cmd_path(t_p *p)
-{
-	char	*tmp;
-	char	*tmp2;
-	int		i;
-	int		j;
-
-	j = -1;
-	while (p->path[++j])
-	{
-		tmp = ft_strjoin(p->path[j], p->cmd_path);
-		tmp2 = ft_strdup(tmp);
-		free (tmp);
-		tmp = NULL;
-		i = access(tmp2, F_OK);
-		if (i < 0)
-			continue ;
-		else
-		{
-			p->cmd_path = ft_strdup(tmp2);
-			free (tmp2);
-			return ;
-		}
-	}
-	e("Error");
-}
-
-static char	*get_path_cmd(char *tmp)
-{
-	int		i;
-	char	*s;
-
+	while (p->path[++i])
+		free (p->path[i]);
+	free (p->path);
 	i = -1;
-	while (tmp[++i])
-		if (tmp[i] == ' ')
-			break;
-	s = ft_substr(tmp, 0, i);
-	return (s);
+	while (p->arg[++i])
+		free (p->arg[i]);
+	free (p->arg);
 }
 
-void get_cmd(t_p *p, int x)
+void	err(t_p *p, char *s)
 {
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	p->cmd = ft_split(p->arg[x], ' ');
-	p->cmd_path = get_path_cmd(p->arg[x]);
-	i = -1;
-	if (p->arg[++i])
-	{
-		if (p->arg[i][0] == '/')
-		{
-			free (p->cmd_path);
-			p->cmd_path = ft_strdup(p->arg[i]);
-		}
-		else
-		{
-			tmp = ft_strjoin("/", p->cmd_path);
-			free(p->cmd_path);
-			p->cmd_path = strdup(tmp);
-			free (tmp);
-			tmp = NULL;
-			get_cmd_path(p);
-		}
-	}
+	perror(s);
+	free_all(p);
+	exit(EXIT_FAILURE);
 }
 
 void	child_work(t_p *p, int i, char **envp)
 {
 	if (pipe(p->pipe) == -1)
-		e("Error");
+		err(p, "Error");
 	p->pid = fork();
 	if (!p->pid)
 	{
@@ -170,9 +47,7 @@ void	child_work(t_p *p, int i, char **envp)
 			dup2 (p->pipe[1], STDOUT_FILENO);
 		}
 		else if (p->id == p->cmd_nbr - 1)
-		{
 			dup2 (p->outfile, STDOUT_FILENO);
-		}
 		else
 			dup2 (p->pipe[1], STDOUT_FILENO);
 		get_cmd(p, i);
@@ -183,18 +58,21 @@ void	child_work(t_p *p, int i, char **envp)
 	dup2 (p->pipe[0], STDIN_FILENO);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_p	p;
 
 	if (argc < 5)
-		e("Error");
+	{
+		ft_putstr_fd("Arg: ./pipex infile command1 command2 outfile\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	p.cmd_nbr = argc - 3;
 	parsing(&p, argc, argv);
 	find_path(&p, envp);
 	p.id = -1;
 	while (++p.id < p.cmd_nbr)
-			child_work(&p, p.id, envp);
-	//debug(p);
+		child_work(&p, p.id, envp);
+	free_all(&p);
 	return (0);
 }
