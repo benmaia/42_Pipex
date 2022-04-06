@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:18:22 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/05 20:20:49 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/06 03:26:05 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ void	get_cmd_path(t_p *p)
 		tmp = ft_strjoin(p->path[j], p->cmd_path);
 		tmp2 = ft_strdup(tmp);
 		free (tmp);
-		tmp = NULL;
 		i = access(tmp2, F_OK);
 		if (i < 0)
+		{
+			free (tmp2);
 			continue ;
+		}
 		else
 		{
 			p->cmd_path = ft_strdup(tmp2);
@@ -36,10 +38,10 @@ void	get_cmd_path(t_p *p)
 			return ;
 		}
 	}
-	err(p, "Error");
+	special_err(p, "Error");
 }
 
-char	*get_path_cmd(char *tmp)
+char	*get_path(char *tmp)
 {
 	int		i;
 	char	*s;
@@ -58,7 +60,7 @@ void	test(t_p *p)
 
 	i = access (p->cmd_path, F_OK);
 	if (i < 0)
-		err(p, "Error");
+		err_all(p, "Error");
 }
 
 void	get_cmd(t_p *p, int x)
@@ -79,7 +81,7 @@ void	get_cmd(t_p *p, int x)
 	else
 	{
 		p->cmd = ft_split(p->arg[x], ' ');
-		p->cmd_path = get_path_cmd(p->arg[x]);
+		p->cmd_path = get_path(p->arg[x]);
 		tmp = ft_strjoin("/", p->cmd_path);
 		free(p->cmd_path);
 		p->cmd_path = strdup(tmp);

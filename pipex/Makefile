@@ -17,6 +17,7 @@ NAME = pipex
 LIBFT_DIR	=	libft
 SRC			=	srcs/main.c \
 				srcs/command.c \
+				srcs/free.c \
 				srcs/parsing.c
 OBJ			=	$(SRC:srcs/%.c=$(OBJ_DIR)/%.o)
 INC_DIR		=	inc
@@ -65,7 +66,7 @@ $(BIN):	$(OBJ) | $(BIN_DIR)
 # 	$(BB)
 # 	$(S) 0.7
 # 	$(PF) "\033r"
-# #5- frame green
+# # #5- frame green
 # 	$(PF) "\033c\n"
 # 	$(E) "\033[2;32m⚜️ -------->> Compiling Pipex  <<--------- ⚜️ \n"
 # 	$(E) "\033[1;;32m            ✅ Pipex Compiled!                \n"

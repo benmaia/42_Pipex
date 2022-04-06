@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 01:37:23 by paijavai          #+#    #+#             */
-/*   Updated: 2022/04/05 20:25:40 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/06 03:26:13 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,19 @@ typedef struct s_p {
 	char	*env;
 	int		in;
 	int		out;
+	int		here_doc;
+	char	*limiter;
 }	t_p;
 
 void	err(t_p *p, char *s);
 
+void	err_all(t_p *p, char *s);
+
+void	special_err(t_p *p, char *s);
+
 void	free_all(t_p *p);
+
+void	free_here(t_p *p);
 
 void	parsing(t_p *p, int argc, char **argv);
 

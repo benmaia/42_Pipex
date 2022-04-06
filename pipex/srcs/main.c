@@ -6,30 +6,15 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/05 20:25:25 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/06 03:23:04 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_all(t_p *p)
-{
-	int	i;
-
-	i = -1;
-	while (p->path[++i])
-		free (p->path[i]);
-	free (p->path);
-	i = -1;
-	while (p->arg[++i])
-		free (p->arg[i]);
-	free (p->arg);
-}
-
-void	err(t_p *p, char *s)
+void	err_here(char *s)
 {
 	perror(s);
-	free_all(p);
 	exit(EXIT_FAILURE);
 }
 
@@ -67,12 +52,12 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd("Arg: ./pipex infile command1 command2 outfile\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	p.cmd_nbr = argc - 3;
 	parsing(&p, argc, argv);
+	p.cmd_nbr = argc - 3 - p.here_doc;
 	find_path(&p, envp);
 	p.id = -1;
 	while (++p.id < p.cmd_nbr)
-		child_work(&p, p.id, envp);
+		child_work(&p, p.id + p.here_doc, envp);
 	free_all(&p);
 	return (0);
 }
