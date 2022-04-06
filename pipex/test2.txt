@@ -1,0 +1,45 @@
+      9       9      68
+olaaa /home/paijavai/.local/bin/test2.txt
+olaaa /usr/local/sbin/test2.txt
+olaaa /usr/local/bin/test2.txt
+olaaa /usr/sbin/test2.txt
+olaaa /usr/bin/test2.txt
+olaaa /sbin/test2.txt
+olaaa /bin/test2.txt
+olaaa /usr/games/test2.txt
+olaaa /usr/local/games/test2.txt
+olaaa /snap/bin/test2.txt
+olaaa /home/paijavai/.local/bin/test2.txt
+total 32
+drwxrwxr-x 4 paijavai paijavai 4096 abr  6 12:58 build
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 12:58 inc
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 12:58 libft
+-rw-rw-r-- 1 paijavai paijavai  484 abr  1 22:59 main.txt
+-rw-rw-r-- 1 paijavai paijavai 2387 abr  6 12:58 Makefile
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 17:46 srcs
+-rw-rw-r-- 1 paijavai paijavai  351 abr  6 17:45 test2.txt
+-rw-rw-r-- 1 paijavai paijavai    0 abr  6 12:58 test3.txt
+-rw-rw-r-- 1 paijavai paijavai  480 abr  6 12:58 test.txt
+total 32
+drwxrwxr-x 4 paijavai paijavai 4096 abr  6 12:58 build
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 12:58 inc
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 12:58 libft
+-rw-rw-r-- 1 paijavai paijavai  484 abr  1 22:59 main.txt
+-rw-rw-r-- 1 paijavai paijavai 2387 abr  6 12:58 Makefile
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 17:47 srcs
+-rw-rw-r-- 1 paijavai paijavai  869 abr  6 17:46 test2.txt
+-rw-rw-r-- 1 paijavai paijavai    0 abr  6 12:58 test3.txt
+-rw-rw-r-- 1 paijavai paijavai  480 abr  6 12:58 test.txt
+total 32
+drwxrwxr-x 4 paijavai paijavai 4096 abr  6 12:58 build
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 12:58 inc
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 12:58 libft
+-rw-rw-r-- 1 paijavai paijavai  484 abr  1 22:59 main.txt
+-rw-rw-r-- 1 paijavai paijavai 2387 abr  6 12:58 Makefile
+drwxrwxr-x 2 paijavai paijavai 4096 abr  6 17:47 srcs
+-rw-rw-r-- 1 paijavai paijavai 1387 abr  6 17:47 test2.txt
+-rw-rw-r-- 1 paijavai paijavai    0 abr  6 12:58 test3.txt
+-rw-rw-r-- 1 paijavai paijavai  480 abr  6 12:58 test.txt
+ola
+burro
+cala-te

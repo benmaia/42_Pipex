@@ -71,10 +71,11 @@ void	parsing(t_p *p, int argc, char **argv)
 	p->arg = malloc(sizeof(char *) * argc);
 	if (!p->arg)
 		err(p, "Error");
-	i = 1 + p->here_doc;
+	i = 1;
 	j = -1;
 	while (++i < argc)
 		p->arg[++j] = ft_strdup(argv[i]);
+	p->arg[++j] = 0;
 }
 
 void	find_path(t_p *p, char **envp)
