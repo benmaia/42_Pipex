@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 01:45:32 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/06 03:23:04 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/07 00:10:07 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	main(int argc, char **argv, char **envp)
 	p.id = -1;
 	while (++p.id < p.cmd_nbr)
 		child_work(&p, p.id + p.here_doc, envp);
+	if (p.here_doc)
+		unlink(".heredoc_tmp");
 	free_all(&p);
 	return (0);
 }

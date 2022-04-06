@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:17:25 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/06 20:04:35 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/07 00:07:31 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	heredoc(char **argv, char *buf, int file)
+void	heredoc(char **argv, int file)
 {
+	char	buf[10000];
+	int		i;
+
 	while (1)
 	{
 		write(1, "pipe heredoc> ", 14);
-		read(0, buf, 10000);
-		if (!ft_strncmp(buf, argv[2], ft_strlen(argv[2])))
-			break ;
+		i = read(0, buf, 10000);
+		buf[--i] = '\0';
+		if (ft_strlen(buf) == ft_strlen(argv[2]))
+			if (!ft_strncmp(argv[2], buf, ft_strlen(argv[2])))
+				break ;
 		write(file, buf, ft_strlen(buf));
+		ft_bzero(buf, sizeof(buf));
 	}
 }
 
 void	append(t_p *p, int argc, char **argv)
 {
 	int		file;
-	char	buf[10000];
 
 	p->here_doc = 1;
 	file = open(".heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -37,7 +42,7 @@ void	append(t_p *p, int argc, char **argv)
 		perror("Error");
 		exit(EXIT_FAILURE);
 	}
-	heredoc(argv, buf, file);
+	heredoc(argv, file);
 	close(file);
 	p->infile = open(".heredoc_tmp", O_RDONLY);
 	if (p->infile < 0)

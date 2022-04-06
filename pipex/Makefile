@@ -44,41 +44,41 @@ $(NAME): $(BIN)
 $(BIN):	$(OBJ) | $(BIN_DIR)
 	@make -s -C $(LIBFT_DIR)
 	@$(CC) $(CFLAGS) -o $(@) $(^) -L$(LIBFT_DIR) -lft
-#1- frame
-	$(PF) "\033c\n"
-	$(CP)
-	@say -r 325 "compiling pipex"
-	$(E) "\033[0;35m              ► Loading \n"
-	$(BB)
-	$(S) 0.5
-	$(PF) "\033r"
-#2- frame	
-	$(PF) "\033c\n"
-	$(CP)
-	$(E) "\033[0;35m              ► Loading .\n"
-	$(BB)
-	$(S) 0.5
-	$(PF) "\033r"
-#3- frame 
-	$(PF) "\033c\n"
-	$(CP)
-	$(E) "\033[0;35m              ► Loading ..\n"
-	$(BB)
-	$(S) 0.5
-	$(PF) "\033r"
-#4- frame
-	$(PF) "\033c\n"
-	$(CP)
-	$(E) "\033[0;35m              ► Loading ...\n"
-	$(BB)
-	$(S) 0.7
-	$(PF) "\033r"
-# #5- frame green
-	$(PF) "\033c\n"
-	$(E) "\033[2;32m⚜️ -------->> Compiling Pipex  <<--------- ⚜️ \n"
-	$(E) "\033[1;;32m            ✅ Pipex Compiled!                \n"
-	$(E) "\033[2;32m⚜️ <-----------------<>------------------> ⚜️ \n"
-	@say -r 350 "compiling is done, have fun piping your mother"
+# #1- frame
+# 	$(PF) "\033c\n"
+# 	$(CP)
+# 	@say -r 325 "compiling pipex"
+# 	$(E) "\033[0;35m              ► Loading \n"
+# 	$(BB)
+# 	$(S) 0.5
+# 	$(PF) "\033r"
+# #2- frame	
+# 	$(PF) "\033c\n"
+# 	$(CP)
+# 	$(E) "\033[0;35m              ► Loading .\n"
+# 	$(BB)
+# 	$(S) 0.5
+# 	$(PF) "\033r"
+# #3- frame 
+# 	$(PF) "\033c\n"
+# 	$(CP)
+# 	$(E) "\033[0;35m              ► Loading ..\n"
+# 	$(BB)
+# 	$(S) 0.5
+# 	$(PF) "\033r"
+# #4- frame
+# 	$(PF) "\033c\n"
+# 	$(CP)
+# 	$(E) "\033[0;35m              ► Loading ...\n"
+# 	$(BB)
+# 	$(S) 0.7
+# 	$(PF) "\033r"
+# # #5- frame green
+# 	$(PF) "\033c\n"
+# 	$(E) "\033[2;32m⚜️ -------->> Compiling Pipex  <<--------- ⚜️ \n"
+# 	$(E) "\033[1;;32m            ✅ Pipex Compiled!                \n"
+# 	$(E) "\033[2;32m⚜️ <-----------------<>------------------> ⚜️ \n"
+# 	@say -r 350 "compiling is done, have fun piping your mother"
 
 $(OBJ_DIR)/%.o:	srcs/mandatory/%.c | $(BUILD_DIR)
 	@#echo "$(YELLOW)[       Compiling pipex ...      ]$(RESET)"	
@@ -99,7 +99,7 @@ bonus: $(B_OBJ) | $(BIN_DIR)
 
 $(B_OBJ_DIR)/%.o:	srcs/bonus/%.c | $(BUILD_DIR)
 	@#echo "$(YELLOW)[       Compiling pipex ...      ]$(RESET)"	
-	@#echo "$(GREEN)[         Creating ${@F}        ]$(RESET)"
+	@echo "$(GREEN)[         Creating ${@F}        ]$(RESET)"
 	@$(CC) $(CFLAGS) -c $(^) -o $(@)
 
 clean:
@@ -133,4 +133,4 @@ bonus4: bonus
 bonus5: bonus
 	@./build/bin/pipex here_doc Oi "ls -l" "cat" "grep .txt" test2.txt
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
