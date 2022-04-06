@@ -6,7 +6,7 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:18:22 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/06 03:26:05 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/06 18:23:09 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	get_cmd_path(t_p *p)
 		tmp2 = ft_strdup(tmp);
 		free (tmp);
 		i = access(tmp2, F_OK);
-		printf("olaaa %s\n", tmp2);
 		if (i < 0)
 		{
 			free (tmp2);
@@ -39,7 +38,7 @@ void	get_cmd_path(t_p *p)
 			return ;
 		}
 	}
-	special_err(p, "111Error");
+	special_err(p, "Error");
 }
 
 char	*get_path(char *tmp)
