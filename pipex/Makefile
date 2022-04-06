@@ -17,8 +17,9 @@ NAME = pipex
 LIBFT_DIR	=	libft
 SRC			=	srcs/mandatory/main.c \
 				srcs/mandatory/command.c \
-				srcs/mandatory/free.c \
-				srcs/mandatory/parsing.c
+				srcs/mandatory/parsing.c \
+				srcs/mandatory/free.c
+
 B_SRC		=	srcs/bonus/main_bonus.c \
 				srcs/bonus/command_bonus.c \
 				srcs/bonus/free_bonus.c \
@@ -81,7 +82,7 @@ $(BIN):	$(OBJ) | $(BIN_DIR)
 
 $(OBJ_DIR)/%.o:	srcs/mandatory/%.c | $(BUILD_DIR)
 	@#echo "$(YELLOW)[       Compiling pipex ...      ]$(RESET)"	
-	@#echo "$(GREEN)[         Creating ${@F}        ]$(RESET)"
+	@echo "$(GREEN)[         Creating ${@F}        ]$(RESET)"
 	@$(CC) $(CFLAGS) -c $(^) -o $(@)
 
 .SILENT = $(OBJ)
@@ -115,7 +116,7 @@ fclean: clean
 re: fclean all
 
 mandatory: all
-	@./build/bin/pipex main.txt "ls" "wc" test.txt
+	@./build/bin/pipex main.txt "/bin/ls" "wc" test.txt
 
 bonus1: bonus
 	@./build/bin/pipex main.txt "ls -l" "grep .txt" "grep test" test.txt
