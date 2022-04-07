@@ -40,7 +40,7 @@ make bonus5 // ./build/bin/pipex here_doc Oi "ls -l" "cat" "grep .txt" test2.txt
 
 <p> Here is an example:</p>
 
-<img src="https://im5.ezgif.com/tmp/ezgif-5-4a7c3e9783.gif" width="1000px" height="450px"/>
+<img src="https://cdn.discordapp.com/attachments/461563270411714561/961675392488443925/Screen_Recording_2022-04-07_at_6.01.13_PM1.gif" width="1000px" height="450px"/>
 </br>
 <p> Pipex OK ✅ Pipex Bonus OK ✅</p>
 </br>
