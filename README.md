@@ -30,12 +30,12 @@ cd pipex
 
 
 ```bash
-make mandatory
-make bonus1
-make bonus2
-make bonus3
-make bonus4
-make bonus5
+make mandatory //./build/bin/pipex main.txt "/bin/ls" "wc" test.txt
+make bonus1 // ./build/bin/pipex main.txt "ls -l" "grep .txt" "grep test" test.txt
+make bonus2 // ./build/bin/pipex main.txt "ls -l" "grep .txt" "grep test" "wc -l" test.txt
+make bonus3 // ./build/bin/pipex here_doc 42 "cat" "cat" test.txt
+make bonus4 // ./build/bin/pipex here_doc 42 "ls -l" "grep .txt" "grep main" test.txt
+make bonus5 // ./build/bin/pipex here_doc Oi "ls -l" "cat" "grep .txt" test2.txt
 ```
 
 <p> Here is an example:</p>
