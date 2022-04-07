@@ -6,11 +6,17 @@
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 02:25:46 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/06 03:29:04 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/08 00:38:20 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+/* The different frees and err functions */
+/* depend on where they are called so    */
+/* if there any errors it only frees     */
+/* what is necessary so it doesn't give  */
+/* memory leaks.                         */
 
 void	free_here(t_p *p)
 {

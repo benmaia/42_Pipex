@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_bonus.c                                    :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:17:25 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/07 00:07:31 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/08 00:34:50 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+/* Recreates the here_doc in shell so it  */
+/* writes the "pipe heredoc> ", after     */
+/* that, it reads what the user inputs in */
+/* a infinite loop. That loop will only   */
+/* stop, when the read function receives  */
+/* an input exactly equal to the limiter  */
+/* while it doesn't find that it will     */
+/* reset the input with ft_bzero          */
 
 void	heredoc(char **argv, int file)
 {
@@ -29,6 +38,16 @@ void	heredoc(char **argv, int file)
 		ft_bzero(buf, sizeof(buf));
 	}
 }
+
+/* If it appends, the here_doc flag gets   */
+/* the value 1, it creates a ghost file    */
+/* with the O_CREAT, and the outfile can't */
+/* delete what was inside of it, that's    */
+/* why it uses the O_APPEND, so it can     */
+/* concatenate the new output with the old */
+/* one. Then calls the heredoc function and*/
+/* after that it puts the STDIN as the     */
+/* ghost file it created.                  */
 
 void	append(t_p *p, int argc, char **argv)
 {
@@ -52,6 +71,13 @@ void	append(t_p *p, int argc, char **argv)
 	}
 }
 
+/* If it redirects, the outfile should   */
+/* delete whats there and writes the     */
+/* new input, thats why it uses the flag */
+/* O_TRUNC, if the outfile doesn't exist */
+/* then one is created with the O_CREAT  */
+/* and set the flag of here_doc as 0     */
+
 void	redirect(t_p *p, int argc, char **argv)
 {
 	p->here_doc = 0;
@@ -63,6 +89,13 @@ void	redirect(t_p *p, int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 }
+
+/* It gets the argv and does the parsing */
+/* if it finds and here_doc it parses    */
+/* as an append command, otherwise it    */
+/* parses as a redirection, after that   */
+/* it stores all the argv into arg so it */
+/* can use them in other functions.      */
 
 void	parsing(t_p *p, int argc, char **argv)
 {
@@ -82,6 +115,10 @@ void	parsing(t_p *p, int argc, char **argv)
 		p->arg[++j] = ft_strdup(argv[i]);
 	p->arg[++j] = 0;
 }
+
+/* It fins all the paths of the      */
+/* computer where the commands could */
+/* be stored.                        */
 
 void	find_path(t_p *p, char **envp)
 {
