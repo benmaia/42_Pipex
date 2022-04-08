@@ -31,6 +31,10 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -I$(INC_DIR) -I$(LIBFT_DIR)
 
+(BUILD_DIR):
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(OBJ_DIR) $(B_OBJ_DIR) $(BIN_DIR)
+
 all: $(NAME)
 
 $(NAME): $(BIN)
@@ -48,9 +52,9 @@ $(OBJ_DIR)/%.o:	srcs/mandatory/%.c | $(BUILD_DIR)
 .SILENT = $(OBJ)
 .SILENT = $(B_OBJ)
 
-$(BUILD_DIR):
-		@mkdir -p $(BUILD_DIR)
-		@mkdir -p $(OBJ_DIR) $(B_OBJ_DIR) $(BIN_DIR)
+#$(BUILD_DIR):
+#		@mkdir -p $(BUILD_DIR)
+#		@mkdir -p $(OBJ_DIR) $(B_OBJ_DIR) $(BIN_DIR)
 
 bonus: $(B_OBJ) | $(BIN_DIR)
 	@make -s -C $(LIBFT_DIR)
