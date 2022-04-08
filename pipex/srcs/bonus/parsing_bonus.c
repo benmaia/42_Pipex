@@ -24,19 +24,23 @@
 void	heredoc(char **argv, int file)
 {
 	char	buf[10000];
-	int		i;
+	char	*tmp;
+	char	*tmp2;
 
+	tmp = ft_strdup(argv[2]);
+	tmp2 = ft_strjoin(tmp, "\n");
 	while (1)
 	{
 		write(1, "pipe heredoc> ", 14);
-		i = read(0, buf, 10000);
-		buf[--i] = '\0';
-		if (ft_strlen(buf) == ft_strlen(argv[2]))
-			if (!ft_strncmp(argv[2], buf, ft_strlen(argv[2])))
+		read(0, buf, 10000);
+		if (ft_strlen(buf) == ft_strlen(tmp2))
+			if (!ft_strncmp(tmp2, buf, ft_strlen(buf)))
 				break ;
 		write(file, buf, ft_strlen(buf));
 		ft_bzero(buf, sizeof(buf));
 	}
+	free (tmp);
+	free (tmp2);
 }
 
 /* If it appends, the here_doc flag gets   */
