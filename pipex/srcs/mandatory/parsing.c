@@ -6,7 +6,7 @@
 /*   By: paijavai <paijavai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:17:25 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/08 20:12:11 by paijavai         ###   ########.fr       */
+/*   Updated: 2022/04/08 21:42:42 by paijavai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,28 @@
 
 void	heredoc(char **argv, int file)
 {
-	char	buf[10000];
-	int		i;
+	char	*buf;
+	char	*tmp;
+	char	*tmp2;
 
+	tmp = ft_strdup(argv[2]);
+	tmp2 = ft_strjoin(tmp, "\n");
 	while (1)
 	{
 		write(1, "pipe heredoc> ", 14);
-		i = read(0, buf, 10000);
-		buf[--i] = '\0';
-		if (ft_strlen(buf) == ft_strlen(argv[2]))
-			if (!ft_strncmp(argv[2], buf, ft_strlen(argv[2])))
-				break ;
-		write(file, buf, ft_strlen(buf));
-		ft_bzero(buf, sizeof(buf));
+		buf = get_next_line(0);
+		if (buf)
+		{
+			if (ft_strlen(buf) == ft_strlen(tmp2))
+				if (!ft_strncmp(tmp2, buf, ft_strlen(argv[2])))
+					break ;
+			write(file, buf, ft_strlen(buf));
+			free (buf);
+		}
 	}
+	free (tmp);
+	free (tmp2);
+	free (buf);
 }
 
 /* If it appends, the here_doc flag gets   */

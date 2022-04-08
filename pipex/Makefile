@@ -2,8 +2,8 @@
 # Colors #
 GREEN		=	\033[0;32m
 YELLOW		=	\033[0;33m
-RED		=	\033[0;31m
-RESET		=   \033[0m
+RED			=	\033[0;31m
+RESET		=	\033[0m
 
 NAME = pipex
 
@@ -18,22 +18,18 @@ B_SRC		=	srcs/bonus/main_bonus.c \
 			srcs/bonus/free_bonus.c \
 			srcs/bonus/parsing_bonus.c
 
-OBJ		=	$(SRC:srcs/mandatory/%.c=$(OBJ_DIR)/%.o)
+OBJ			=	$(SRC:srcs/mandatory/%.c=$(OBJ_DIR)/%.o)
 B_OBJ		=	$(B_SRC:srcs/bonus/%.c=$(B_OBJ_DIR)/%.o)
 INC_DIR		=	inc
 BUILD_DIR	=	./build
 BIN_DIR		=	$(BUILD_DIR)/bin
 OBJ_DIR		=	$(BUILD_DIR)/objects
 B_OBJ_DIR	=	$(BUILD_DIR)/b_objects
-BIN		=	$(BIN_DIR)/$(NAME)
+BIN			=	$(BIN_DIR)/$(NAME)
 
 CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -I$(INC_DIR) -I$(LIBFT_DIR)
-
-(BUILD_DIR):
-	@mkdir -p $(BUILD_DIR)
-	@mkdir -p $(OBJ_DIR) $(B_OBJ_DIR) $(BIN_DIR)
 
 all: $(NAME)
 
@@ -52,9 +48,9 @@ $(OBJ_DIR)/%.o:	srcs/mandatory/%.c | $(BUILD_DIR)
 .SILENT = $(OBJ)
 .SILENT = $(B_OBJ)
 
-#$(BUILD_DIR):
-#		@mkdir -p $(BUILD_DIR)
-#		@mkdir -p $(OBJ_DIR) $(B_OBJ_DIR) $(BIN_DIR)
+$(BUILD_DIR):
+		@mkdir -p $(BUILD_DIR)
+		@mkdir -p $(OBJ_DIR) $(B_OBJ_DIR) $(BIN_DIR)
 
 bonus: $(B_OBJ) | $(BIN_DIR)
 	@make -s -C $(LIBFT_DIR)
