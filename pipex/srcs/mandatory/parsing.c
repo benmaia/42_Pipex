@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paijavai <paijavai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:17:25 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/08 00:34:50 by bmiguel-         ###   ########.fr       */
+/*   Updated: 2022/04/08 20:12:11 by paijavai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	append(t_p *p, int argc, char **argv)
 	int		file;
 
 	if (argc < 6)
-        {
-                ft_putstr_fd("Arg: ./pipex  here_doc LIMITER command1 command2 outfile\n", 2);
-                exit(EXIT_FAILURE);
-        }
+	{
+		ft_putstr_fd("Arg: ./pipex  here_doc LIMITER command1 command2 outfile\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	p->here_doc = 1;
 	file = open(".heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	p->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
