@@ -40,11 +40,11 @@ make bonus5 // ./build/bin/pipex here_doc Oi "ls -l" "cat" "grep .txt" test2.txt
 
 <p> Here is an example:</p>
 
-<img src="https://media.discordapp.net/attachments/461563270411714561/963193901198508093/Screen_Shot_2022-04-11_at_10.48.01_PM.png?width=1858&height=360"/>
+<img src="https://cdn.discordapp.com/attachments/461563270411714561/961675392488443925/Screen_Recording_2022-04-07_at_6.01.13_PM1.gif" </p>
 </br>
 <p> Pipex OK ✅ Pipex Bonus OK ✅</p>
 </br>
 <p> Grade: 125% </p>
 <div style="display: inline"><br>
-   <img src="https://cdn.discordapp.com/attachments/461563270411714561/953326133233991700/Screen_Shot_2022-03-15_at_4.16.20_PM.png">
+   <img src="https://media.discordapp.net/attachments/461563270411714561/963193901198508093/Screen_Shot_2022-04-11_at_10.48.01_PM.png?width=1858&height=360">
 </div>
