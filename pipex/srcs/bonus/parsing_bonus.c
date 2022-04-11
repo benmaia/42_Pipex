@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paijavai <paijavai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmiguel- <bmiguel-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 20:17:25 by bmiguel-          #+#    #+#             */
-/*   Updated: 2022/04/08 21:43:50 by paijavai         ###   ########.fr       */
+/*   Updated: 2022/04/11 20:48:04 by bmiguel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	append(t_p *p, int argc, char **argv)
 
 	if (argc < 6)
 	{
-		ft_putstr_fd("Arg: ./pipex  here_doc LIMITER command1 command2 outfile\n", 2);
+		ft_putstr_fd("Arg: ./pipex need more arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	p->here_doc = 1;
